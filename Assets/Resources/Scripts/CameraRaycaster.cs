@@ -8,6 +8,8 @@ public class CameraRaycaster : MonoBehaviour
     float rayRange;
     [SerializeField]
     LayerMask layerMask;
+    [SerializeField]
+    Vector3 YOffset = new Vector3(0, 1.5f, 0);
 
     bool isOpen = false;
 
@@ -37,9 +39,9 @@ public class CameraRaycaster : MonoBehaviour
                 // if the door is closed draw ray from both side of the door to locate player position
                 if (!isOpen)
                 {
-                    if (Physics.Raycast(hit.transform.position - new Vector3(-0.2f, 3, 0), transform.position, out inHit, rayRange + 100))
+                    if (Physics.Raycast(hit.transform.position - new Vector3(-0.2f, YOffset.y, 0), transform.position, out inHit, rayRange + 100))
                     {
-                        Debug.DrawRay(hit.transform.position - new Vector3(-0.2f, 3, 0), transform.position, Color.red);
+                        Debug.DrawRay(hit.transform.position - new Vector3(-0.2f, YOffset.y, 0), transform.position, Color.red);
 
                         if (inHit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
                         {
@@ -49,9 +51,9 @@ public class CameraRaycaster : MonoBehaviour
                             // TODO Animation for the door
                         }
                     }
-                    if (Physics.Raycast(hit.transform.position - new Vector3(0.2f, 3, 0), -transform.position, out outHit, rayRange + 100))
+                    if (Physics.Raycast(hit.transform.position - new Vector3(0.2f, YOffset.y, 0), -transform.position, out outHit, rayRange + 100))
                     {
-                        Debug.DrawRay(hit.transform.position - new Vector3(0.2f, 3, 0), -transform.position, Color.blue);
+                        Debug.DrawRay(hit.transform.position - new Vector3(0.2f, YOffset.y, 0), -transform.position, Color.blue);
                         if (outHit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
                         {
                             hinge.Rotate(0, -90, 0);
@@ -64,9 +66,9 @@ public class CameraRaycaster : MonoBehaviour
                 // if the door is open
                 else
                 {
-                    if (Physics.Raycast(hit.transform.position - new Vector3(0.5f, 3, 0), transform.forward, out closeHit, rayRange + 100))
+                    if (Physics.Raycast(hit.transform.position - new Vector3(0.5f, YOffset.y, 0), transform.forward, out closeHit, rayRange + 100))
                     {
-                        Debug.DrawRay(hit.transform.position - new Vector3(0.5f, 3, 0), transform.forward, Color.black);
+                        Debug.DrawRay(hit.transform.position - new Vector3(0.5f, YOffset.y, 0), transform.forward, Color.black);
                         // set rotation position to normal / default
                         hinge.rotation = Quaternion.Euler(0, 0, 0);
                         Debug.Log("Closed");
